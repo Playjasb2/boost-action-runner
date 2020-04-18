@@ -4,17 +4,25 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 0 1 1 *' # runs at the start of each year
+    - cron: "0 0 1 1 *" # runs at the start of each year
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: playjasb2/boost-action-runner
-        username: ${{ github.actor }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: docker.pkg.github.com
-        cache: ${{ github.event_name != 'schedule' }}
+      - uses: actions/checkout@master
+      - name: Publish to Github Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: playjasb2/boost-action-runner/boost-action-runner
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: docker.pkg.github.com
+          cache: ${{ github.event_name != 'schedule' }}
+      - name: Publish to Docker Hub Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: jbrar/boost-action-runner
+          username: jbrar
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          registry: hub.docker.com
+          cache: ${{ github.event_name != 'schedule' }}
