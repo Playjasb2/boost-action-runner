@@ -56,3 +56,6 @@ RUN rm -rf ./boost_1_72_0.tar.gz
 # Set environment variables
 ENV BOOST_ROOT_1_69_0=/usr/include/boost_1_69_0/
 ENV BOOST_ROOT_1_72_0=/usr/include/boost_1_72_0/
+
+# Change working directory in the end
+WORKDIR /usr/
